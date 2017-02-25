@@ -3,11 +3,11 @@
 
 # Question 1 (Naked Twins)
 Q: How do we use constraint propagation to solve the naked twins problem?  
-A: *Student should provide answer here*
+A: Naked Twins means those two numbers are locked in those two boxes, so other boxes in the same unit can apply a conclusion that they should not include these two numbers.
 
 # Question 2 (Diagonal Sudoku)
 Q: How do we use constraint propagation to solve the diagonal sudoku problem?  
-A: *Student should provide answer here*
+A: My Diagonal Solution still have issues, maybe the reason is I didn't consider to use constraint propagation. Please advice.
 
 ### Install
 
