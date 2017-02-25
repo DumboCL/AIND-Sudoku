@@ -9,6 +9,10 @@ A: Naked Twins means those two numbers are locked in those two boxes, so other b
 Q: How do we use constraint propagation to solve the diagonal sudoku problem?  
 A: My Diagonal Solution still have issues, maybe the reason is I didn't consider to use constraint propagation. Please advice.
 
+### Remaining Issues
+
+Current Solution takes 5806.075s to pass the 3 tests. Awful!
+
 ### Install
 
 This project requires **Python 3**.
