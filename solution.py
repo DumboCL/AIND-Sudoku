@@ -52,8 +52,10 @@ def naked_twins(values):
                 # Eliminate the naked twins as possibilities for their peers
                 for item in unit:
                     if values[item] != values[box]:
-                        values[item] = values[item].replace(values[box][0], '')
-                        values[item] = values[item].replace(values[box][1], '')
+                        # values[item] = values[item].replace(values[box][0], '')
+                        assign_value(values, item, values[item].replace(values[box][0], ''))
+                        #values[item] = values[item].replace(values[box][1], '')
+                        assign_value(values, item, values[item].replace(values[box][1], ''))
     return values
 
 def grid_values(grid):
@@ -101,7 +103,8 @@ def eliminate(values):
     for k, v in values.items():
         if re.match(r'^\d{1}$', v):
             for position in peers[k]:
-                values[position] = values[position].replace(v, '')
+                # values[position] = values[position].replace(v, '')
+                assign_value(values, position, values[position].replace(v, ''))
     return values
 
 def only_choice(values):
@@ -124,7 +127,8 @@ def only_choice(values):
                 if hits > 1:
                     break
             if hits == 1:
-                values[target_box] = each_digit
+                # values[target_box] = each_digit
+                assign_value(values, target_box, each_digit)
     return values
 
 def reduce_puzzle(values):
@@ -244,7 +248,7 @@ def solve(grid):
 if __name__ == '__main__':
     diag_sudoku_grid = '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
     display(solve(diag_sudoku_grid))
-'''
+
     try:
         from visualize import visualize_assignments
         visualize_assignments(assignments)
@@ -253,4 +257,3 @@ if __name__ == '__main__':
         pass
     except:
         print('We could not visualize your board due to a pygame issue. Not a problem! It is not a requirement.')
-'''
