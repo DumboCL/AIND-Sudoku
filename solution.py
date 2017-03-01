@@ -11,7 +11,10 @@ boxes = cross(rows, cols)
 row_units = [cross(r, cols) for r in rows]
 column_units = [cross(rows, c) for c in cols]
 square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','456','789')]
-unitlist = row_units + column_units + square_units
+BOARD_SIZE = len(row_units)
+diagonal1 = [['A1', 'B2', 'C3', 'D4', 'E5', 'F6', 'G7', 'H8', 'I9']]
+diagonal2 = [['A9', 'B8', 'C7', 'D6', 'E5', 'F4', 'G3', 'H2', 'I1']]
+unitlist = row_units + column_units + square_units + diagonal1 + diagonal2
 units = dict((s, [u for u in unitlist if s in u]) for s in boxes)
 peers = dict((s, set(sum(units[s],[]))-set([s])) for s in boxes)
 
@@ -125,6 +128,16 @@ def only_choice(values):
     return values
 
 def reduce_puzzle(values):
+    """Using three strategy to reduce every box's possible values.
+    
+    Three strategy:
+        Eliminate
+        Only Choice
+        Naked Twins
+        
+    Input: Sudoku in dictionary form.
+    Output: Resulting in dictionary form after three strategy
+    """
     stalled = False
     while not stalled:
         # Check how many boxes have a determined value
@@ -137,7 +150,7 @@ def reduce_puzzle(values):
         values = only_choice(values)
         
         # Naked Twins
-        #values = naked_twins(values)
+        values = naked_twins(values)
         
         # Check how many boxes have a determined value, to compare
         solved_values_after = len([box for box in values.keys() if len(values[box]) == 1])
@@ -149,6 +162,12 @@ def reduce_puzzle(values):
     return values
 
 def is_diagonal_sudoku(values):
+    """Determine a Sudoku result is a Diagonal Sudoku or not.
+    
+    Input: Sudoku in dictionary form.
+    Output: True if Diagonal Sudoku
+            False if not
+    """
     check_pass = False
     board = row_units
     BOARD_SIZE = len(board)
@@ -162,6 +181,15 @@ def is_diagonal_sudoku(values):
         return False
     
 def is_unit_solved(values, unit):
+    """Determine if one unit has been solved.
+    
+    Input: Sudoku in dictionary form;
+           Boxes set of one unit.
+    Output: True if the unit solved
+            False if not
+    """
+    print(unit)
+    display(values)
     if all(len(values[s]) == 1 for s in unit):
         contrast_string = '123456789'
         for each_box in unit:
@@ -174,6 +202,12 @@ def is_unit_solved(values, unit):
         return False
 
 def search(values):
+    """After trying all the strategy, the last step is enumerate all the possibilities in one box, then use recursion to solve each.
+    
+    Input: Sudoku in dictionary form.
+    Output: Solved Sudoku if found
+            False if not
+    """
     values = reduce_puzzle(values)
     if values is False:
         return False ## Failed earlier
@@ -189,12 +223,12 @@ def search(values):
         assumed_solution[position] = value
         attempt = search(assumed_solution)
         if attempt:
-            display(attempt)
-            print("========")
-            if is_diagonal_sudoku(attempt):
-                return attempt
-            else:
-                continue
+            return attempt
+            # change this solution to : add diagonal units into original unitlist, join the solving strategy at first place
+            # if is_diagonal_sudoku(attempt):
+            #    return attempt
+            # else:
+            #    continue
 
 def solve(grid):
     """
