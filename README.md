@@ -4,14 +4,19 @@
 # Question 1 (Naked Twins)
 Q: How do we use constraint propagation to solve the naked twins problem?  
 A: Naked Twins means those two numbers are locked in those two boxes, so other boxes in the same unit can apply a conclusion that they should not include these two numbers.
-
+Step 1: Find all the remained boxes contain two possible digits.
+     2: iterate each box, in its belonging unit (at least 3, 4 if concerning diagonal), if there is total two equals to that two possible digits, then these two boxes are naked twins.
+     3: For the rest box in the certain unit, replace those two digits with '' if they contain either digit.
+     4: Achieve the purpose: reduce the possible digits
+     
 # Question 2 (Diagonal Sudoku)
 Q: How do we use constraint propagation to solve the diagonal sudoku problem?  
-A: My Diagonal Solution still have issues, maybe the reason is I didn't consider to use constraint propagation. Please advice.
+A: Add diagonal boxes into initial unitlist to join the constraint. Treat it as normal unit, let computer do the rest.
 
-### Remaining Issues
+## Issues Solved
 
-Current Solution takes 5806.075s to pass the 3 tests. Awful!
+###First Solution takes 5806.075s to pass the 3 tests. Awful!
+Solution: Add diagonal units into original unitlist, join the solving strategy at first place
 
 ### Install
 
