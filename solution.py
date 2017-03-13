@@ -14,7 +14,8 @@ square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','45
 BOARD_SIZE = len(row_units)
 diagonal1 = [['A1', 'B2', 'C3', 'D4', 'E5', 'F6', 'G7', 'H8', 'I9']]
 diagonal2 = [['A9', 'B8', 'C7', 'D6', 'E5', 'F4', 'G3', 'H2', 'I1']]
-unitlist = row_units + column_units + square_units + diagonal1 + diagonal2
+#unitlist = row_units + column_units + square_units + diagonal1 + diagonal2
+unitlist = row_units + column_units + square_units
 units = dict((s, [u for u in unitlist if s in u]) for s in boxes)
 peers = dict((s, set(sum(units[s],[]))-set([s])) for s in boxes)
 
@@ -55,7 +56,7 @@ def naked_twins(values):
                         # values[item] = values[item].replace(values[box][0], '')
                         assign_value(values, item, values[item].replace(values[box][0], ''))
                         #values[item] = values[item].replace(values[box][1], '')
-                        assign_value(values, item, values[item].replace(values[box][1], ''))
+                        assign_value(values, item, values[item].replace(values[box][0], '')) # After replace the first symbol, the length of values[box] already -1
     return values
 
 def grid_values(grid):
@@ -246,7 +247,9 @@ def solve(grid):
     return search((grid_values(grid)))
 
 if __name__ == '__main__':
-    diag_sudoku_grid = '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
+    #diag_sudoku_grid = '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
+    diag_sudoku_grid = '8..........36......7..9.2...5...7.......457.....1...3...1....68..85...1..9....4..'
+    
     display(solve(diag_sudoku_grid))
 
     try:
